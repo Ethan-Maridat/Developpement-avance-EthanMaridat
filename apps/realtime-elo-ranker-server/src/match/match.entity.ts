@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Column,
+  JoinColumn,
+} from 'typeorm';
 import { Player } from '../player/player.entity';
 
 @Entity()
@@ -7,11 +13,13 @@ export class Match {
   id: number;
 
   @ManyToOne(() => Player, { eager: true })
-  player1: Player;
+  @JoinColumn({ name: 'loser' })
+  loser: Player;
 
   @ManyToOne(() => Player, { eager: true })
-  player2: Player;
+  @JoinColumn({ name: 'winner' })
+  winner: Player;
 
   @Column()
-  result: 'win' | 'lose' | 'draw';  // Résultat du match
+  draw: boolean;
 }

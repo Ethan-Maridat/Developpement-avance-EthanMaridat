@@ -1,30 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Player } from './player.entity';
-import { EloService } from '../elo/elo.service';
+import { Player } from '../player/player.entity';
 
 @Injectable()
 export class PlayerService {
   constructor(
     @InjectRepository(Player)
     private playerRepository: Repository<Player>,
-    private eloService: EloService,
   ) {}
 
-  // Créer un joueur avec classement initial
-  async createPlayer(): Promise<Player> {
-    const initialElo = await Player.calculateInitialElo(this.playerRepository);
-    const newPlayer = this.playerRepository.create({ eloRating: initialElo });
-    return this.playerRepository.save(newPlayer);
+  async findAll(): Promise<Player[]> {
+    return this.playerRepository.find();
   }
 
-  // Mettre à jour le classement Elo d'un joueur après un match
-  async updateElo(player: Player, opponent: Player, result: string): Promise<void> {
-    const { playerNewElo, opponentNewElo } = this.eloService.calculateElo(player, opponent, result);
-    player.eloRating = playerNewElo;
-    opponent.eloRating = opponentNewElo;
-    await this.playerRepository.save(player);
-    await this.playerRepository.save(opponent);
+  async findOne(name: string): Promise<Player> {
+    const player = await this.playerRepository.findOneBy({ name });
+    if (!player) {
+      throw new Error(`Player with name ${name} not found`);
+    }
+    return player;
+  }
+
+  async create(name: string): Promise<Player> {
+    const player = this.playerRepository.create({ name });
+    return this.playerRepository.save(player);
   }
 }

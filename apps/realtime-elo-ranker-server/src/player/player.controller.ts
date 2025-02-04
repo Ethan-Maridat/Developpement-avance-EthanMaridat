@@ -1,14 +1,22 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { PlayerService } from './player.service';
-import { Player } from './player.entity';
 
-@Controller('players')
+@Controller('api/players')
 export class PlayerController {
   constructor(private readonly playerService: PlayerService) {}
 
-  // Créer un joueur
+  @Get()
+  findAll() {
+    return this.playerService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.playerService.findOne(id);
+  }
+
   @Post()
-  async createPlayer(): Promise<Player> {
-    return this.playerService.createPlayer();
+  create(@Body('name') name: string) {
+    return this.playerService.create(name);
   }
 }
