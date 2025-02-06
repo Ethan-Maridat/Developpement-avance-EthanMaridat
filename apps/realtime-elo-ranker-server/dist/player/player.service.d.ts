@@ -1,12 +1,9 @@
-export interface Player {
-    id: number;
-    name: string;
-    score: number;
-}
+import { Repository } from 'typeorm';
+import { Player } from '../player/player.entity';
 export declare class PlayerService {
-    private players;
-    private idCounter;
-    getAllPlayers(): Player[];
-    addPlayer(name: string): Player;
-    updatePlayerScore(id: number, score: number): Player | null;
+    private playerRepository;
+    constructor(playerRepository: Repository<Player>);
+    findAll(): Promise<Player[]>;
+    findOne(id: string): Promise<Player>;
+    create(id: string): Promise<Player>;
 }

@@ -8,32 +8,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MatchService = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const typeorm_2 = require("typeorm");
+const match_entity_1 = require("./match.entity");
 const player_service_1 = require("../player/player.service");
 let MatchService = class MatchService {
-    constructor(playerService) {
+    constructor(matchRepository, playerService) {
+        this.matchRepository = matchRepository;
         this.playerService = playerService;
-        this.matches = [];
-        this.idCounter = 1;
     }
-    getAllMatches() {
-        return this.matches;
-    }
-    addMatch(player1, player2, winner) {
-        const newMatch = { id: this.idCounter++, player1, player2, winner };
-        this.matches.push(newMatch);
-        const winnerPlayer = this.playerService.updatePlayerScore(winner, 10);
-        if (winnerPlayer) {
-            console.log(`Score mis à jour pour le gagnant: ${winnerPlayer.name}`);
-        }
-        return newMatch;
+    async createMatch(loser, winner, draw) {
+        const match = this.matchRepository.create({ loser, winner, draw });
+        return this.matchRepository.save(match);
     }
 };
 exports.MatchService = MatchService;
 exports.MatchService = MatchService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [player_service_1.PlayerService])
+    __param(0, (0, typeorm_1.InjectRepository)(match_entity_1.Match)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        player_service_1.PlayerService])
 ], MatchService);
 //# sourceMappingURL=match.service.js.map

@@ -19,14 +19,17 @@ let PlayerController = class PlayerController {
     constructor(playerService) {
         this.playerService = playerService;
     }
-    getAllPlayers() {
-        return this.playerService.getAllPlayers();
+    findAll() {
+        const players = this.playerService.findAll();
+        console.log('Players:', players);
+        return players;
     }
-    addPlayer(name) {
-        return this.playerService.addPlayer(name);
+    findOne(id) {
+        return this.playerService.findOne(id);
     }
-    updatePlayerScore(id, score) {
-        return this.playerService.updatePlayerScore(id, score);
+    create(id) {
+        console.log('id', id);
+        return this.playerService.create(id);
     }
 };
 exports.PlayerController = PlayerController;
@@ -35,24 +38,23 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], PlayerController.prototype, "getAllPlayers", null);
+], PlayerController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)('name')),
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], PlayerController.prototype, "addPlayer", null);
+], PlayerController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)('score')),
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], PlayerController.prototype, "updatePlayerScore", null);
+], PlayerController.prototype, "create", null);
 exports.PlayerController = PlayerController = __decorate([
-    (0, common_1.Controller)('players'),
+    (0, common_1.Controller)('api/player'),
     __metadata("design:paramtypes", [player_service_1.PlayerService])
 ], PlayerController);
 //# sourceMappingURL=player.controller.js.map

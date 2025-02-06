@@ -2,7 +2,7 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { MatchService } from './match.service';
 import { Player } from 'src/player/player.entity';
 
-@Controller('api/matches')
+@Controller('/api/matches')
 export class MatchController {
   constructor(private readonly matchService: MatchService) {}
 

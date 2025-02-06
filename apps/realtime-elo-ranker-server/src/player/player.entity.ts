@@ -1,16 +1,17 @@
 import { Entity, PrimaryColumn, OneToOne, OneToMany } from 'typeorm';
 import { Match } from '../match/match.entity';
-import { Classement } from '../classement/classement.entity';
+import { Ranking } from '../ranking/ranking.entity';
 
 @Entity()
 export class Player {
   @PrimaryColumn()
-  name: string;
+  id: string;
 
-  @OneToOne(() => Classement, (classement) => classement.player, {
+  @OneToOne(() => Ranking, (ranking) => ranking.player, {
     cascade: true,
+    eager: true,
   })
-  classement: Classement;
+  rank: Ranking;
 
   @OneToMany(() => Match, (match) => match.loser || match.winner)
   matches: Match[];

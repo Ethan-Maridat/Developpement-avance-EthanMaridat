@@ -9,7 +9,7 @@ import {
 import { Player } from '../player/player.entity';
 
 @Entity()
-export class Classement {
+export class Ranking {
   @PrimaryGeneratedColumn()
   id: number;
 

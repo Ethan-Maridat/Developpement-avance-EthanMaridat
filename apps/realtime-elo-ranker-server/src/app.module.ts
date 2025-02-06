@@ -6,20 +6,21 @@ import { PlayerService } from './player/player.service';
 import { MatchService } from './match/match.service';
 import { PlayerController } from './player/player.controller';
 import { MatchController } from './match/match.controller';
-import { ClassementController } from './classement/classement.controller';
-import { ClassementService } from './classement/classement.service';
+import { RankingController } from './ranking/ranking.controller';
+import { RankingService } from './ranking/ranking.service';
+import { Ranking } from './ranking/ranking.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'database.sqlite',
-      entities: [Player, Match],
+      database: 'db',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Player, Match]),
+    TypeOrmModule.forFeature([Player, Match, Ranking]),
   ],
-  controllers: [PlayerController, MatchController, ClassementController],
-  providers: [PlayerService, MatchService, ClassementService],
+  controllers: [PlayerController, MatchController, RankingController],
+  providers: [PlayerService, MatchService, RankingService],
 })
 export class AppModule {}

@@ -1,16 +1,10 @@
+import { Repository } from 'typeorm';
+import { Match } from './match.entity';
 import { PlayerService } from '../player/player.service';
-interface Match {
-    id: number;
-    player1: number;
-    player2: number;
-    winner: number;
-}
+import { Player } from '../player/player.entity';
 export declare class MatchService {
-    private readonly playerService;
-    private matches;
-    private idCounter;
-    constructor(playerService: PlayerService);
-    getAllMatches(): Match[];
-    addMatch(player1: number, player2: number, winner: number): Match;
+    private matchRepository;
+    private playerService;
+    constructor(matchRepository: Repository<Match>, playerService: PlayerService);
+    createMatch(loser: Player, winner: Player, draw: boolean): Promise<Match>;
 }
-export {};

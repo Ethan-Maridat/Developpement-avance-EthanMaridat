@@ -5,9 +5,7 @@ const app_module_1 = require("./app.module");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.enableCors();
-    const port = process.env.PORT || 8080;
-    await app.listen(port);
-    console.log(`🚀 Serveur en écoute sur http://localhost:${port}`);
+    await app.listen(8080);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map
