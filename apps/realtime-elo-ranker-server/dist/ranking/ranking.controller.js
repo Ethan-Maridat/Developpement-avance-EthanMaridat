@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RankingController = void 0;
 const common_1 = require("@nestjs/common");
@@ -24,10 +21,6 @@ let RankingController = class RankingController {
     getClassement() {
         return (0, rxjs_1.interval)(1000).pipe((0, rxjs_1.map)(() => new MessageEvent('message', { data: 'Classement mis à jour' })));
     }
-    async updateRanking(winnerName, loserName) {
-        await this.rankingService.updateRanking(winnerName, loserName);
-        return { message: 'Ranking mis à jour' };
-    }
     async getRanking() {
         return this.rankingService.getRanking();
     }
@@ -39,14 +32,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", rxjs_1.Observable)
 ], RankingController.prototype, "getClassement", null);
-__decorate([
-    (0, common_1.Post)('update'),
-    __param(0, (0, common_1.Body)('winnerId')),
-    __param(1, (0, common_1.Body)('loserId')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
-    __metadata("design:returntype", Promise)
-], RankingController.prototype, "updateRanking", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),

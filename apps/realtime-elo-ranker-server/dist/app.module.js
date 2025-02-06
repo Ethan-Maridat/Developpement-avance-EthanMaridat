@@ -17,7 +17,6 @@ const player_controller_1 = require("./player/player.controller");
 const match_controller_1 = require("./match/match.controller");
 const ranking_controller_1 = require("./ranking/ranking.controller");
 const ranking_service_1 = require("./ranking/ranking.service");
-const ranking_entity_1 = require("./ranking/ranking.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -30,7 +29,7 @@ exports.AppModule = AppModule = __decorate([
                 entities: [__dirname + '/**/*.entity{.ts,.js}'],
                 synchronize: true,
             }),
-            typeorm_1.TypeOrmModule.forFeature([player_entity_1.Player, match_entity_1.Match, ranking_entity_1.Ranking]),
+            typeorm_1.TypeOrmModule.forFeature([player_entity_1.Player, match_entity_1.Match]),
         ],
         controllers: [player_controller_1.PlayerController, match_controller_1.MatchController, ranking_controller_1.RankingController],
         providers: [player_service_1.PlayerService, match_service_1.MatchService, ranking_service_1.RankingService],

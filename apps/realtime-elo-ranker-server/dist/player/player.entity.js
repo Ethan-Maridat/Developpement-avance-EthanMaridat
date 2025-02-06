@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Player = void 0;
 const typeorm_1 = require("typeorm");
 const match_entity_1 = require("../match/match.entity");
-const ranking_entity_1 = require("../ranking/ranking.entity");
 let Player = class Player {
 };
 exports.Player = Player;
@@ -21,11 +20,8 @@ __decorate([
     __metadata("design:type", String)
 ], Player.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => ranking_entity_1.Ranking, (ranking) => ranking.player, {
-        cascade: true,
-        eager: true,
-    }),
-    __metadata("design:type", ranking_entity_1.Ranking)
+    (0, typeorm_1.Column)('int'),
+    __metadata("design:type", Number)
 ], Player.prototype, "rank", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => match_entity_1.Match, (match) => match.loser || match.winner),

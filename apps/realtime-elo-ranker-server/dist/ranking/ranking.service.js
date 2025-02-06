@@ -16,49 +16,20 @@ exports.RankingService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const ranking_entity_1 = require("./ranking.entity");
 const player_entity_1 = require("../player/player.entity");
 let RankingService = class RankingService {
-    constructor(rankingRepository, playerRepository) {
-        this.rankingRepository = rankingRepository;
+    constructor(playerRepository) {
         this.playerRepository = playerRepository;
         this.K = 32;
     }
     async getRanking() {
-        return this.rankingRepository.find();
-    }
-    async updateRanking(winnerName, loserName) {
-        const winner = await this.playerRepository.findOne({
-            where: { id: winnerName },
-        });
-        const loser = await this.playerRepository.findOne({
-            where: { id: loserName },
-        });
-        if (!winner || !loser) {
-            throw new Error('Les joueurs spécifiés ne sont pas trouvés');
-        }
-        const winnerRanking = await this.rankingRepository.findOne({
-            where: { player: winner },
-        });
-        const loserRanking = await this.rankingRepository.findOne({
-            where: { player: loser },
-        });
-        if (!winnerRanking || !loserRanking) {
-            throw new Error('Les rankings des joueurs ne sont pas trouvés');
-        }
-        const WeWinner = 1 / (1 + Math.pow(10, (loserRanking.rank - winnerRanking.rank) / 400));
-        const WeLoser = 1 / (1 + Math.pow(10, (winnerRanking.rank - loserRanking.rank) / 400));
-        winnerRanking.rank = Math.round(winnerRanking.rank + this.K * (1 - WeWinner));
-        loserRanking.rank = Math.round(loserRanking.rank + this.K * (0 - WeLoser));
-        await this.rankingRepository.save([winnerRanking, loserRanking]);
+        return this.playerRepository.find();
     }
 };
 exports.RankingService = RankingService;
 exports.RankingService = RankingService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(ranking_entity_1.Ranking)),
-    __param(1, (0, typeorm_1.InjectRepository)(player_entity_1.Player)),
-    __metadata("design:paramtypes", [typeorm_2.Repository,
-        typeorm_2.Repository])
+    __param(0, (0, typeorm_1.InjectRepository)(player_entity_1.Player)),
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], RankingService);
 //# sourceMappingURL=ranking.service.js.map

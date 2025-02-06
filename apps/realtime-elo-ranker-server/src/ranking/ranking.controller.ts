@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { RankingService } from './ranking.service';
 import { Sse } from '@nestjs/common';
 import { Observable, interval, map } from 'rxjs';
@@ -14,14 +14,14 @@ export class RankingController {
     );
   }
 
-  @Post('update')
-  async updateRanking(
-    @Body('winnerId') winnerName: string,
-    @Body('loserId') loserName: string,
-  ) {
-    await this.rankingService.updateRanking(winnerName, loserName);
-    return { message: 'Ranking mis à jour' };
-  }
+  // @Post('update')
+  // async updateRanking(
+  //   @Body('winnerId') winnerName: string,
+  //   @Body('loserId') loserName: string,
+  // ) {
+  //   await this.rankingService.updateRanking(winnerName, loserName);
+  //   return { message: 'Ranking mis à jour' };
+  // }
 
   @Get()
   async getRanking() {

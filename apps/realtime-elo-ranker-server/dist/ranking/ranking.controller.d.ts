@@ -4,8 +4,5 @@ export declare class RankingController {
     private readonly rankingService;
     constructor(rankingService: RankingService);
     getClassement(): Observable<MessageEvent>;
-    updateRanking(winnerName: string, loserName: string): Promise<{
-        message: string;
-    }>;
-    getRanking(): Promise<import("./ranking.entity").Ranking[]>;
+    getRanking(): Promise<import("../player/player.entity").Player[]>;
 }

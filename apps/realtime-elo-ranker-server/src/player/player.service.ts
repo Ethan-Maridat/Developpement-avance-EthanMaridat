@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Player } from '../player/player.entity';
-import { Ranking } from '../ranking/ranking.entity';
 
 @Injectable()
 export class PlayerService {
@@ -24,10 +23,7 @@ export class PlayerService {
   }
 
   async create(id: string): Promise<Player> {
-    const ranking = new Ranking();
-    ranking.rank = 0;
-
-    const player = this.playerRepository.create({ id, rank: ranking });
+    const player = this.playerRepository.create({ id, rank: 0 });  // Assurer que rank est défini à 0
     return this.playerRepository.save(player);
   }
 }

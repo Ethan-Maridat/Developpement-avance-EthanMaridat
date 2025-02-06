@@ -8,7 +8,6 @@ import { PlayerController } from './player/player.controller';
 import { MatchController } from './match/match.controller';
 import { RankingController } from './ranking/ranking.controller';
 import { RankingService } from './ranking/ranking.service';
-import { Ranking } from './ranking/ranking.entity';
 
 @Module({
   imports: [
@@ -18,7 +17,7 @@ import { Ranking } from './ranking/ranking.entity';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Player, Match, Ranking]),
+    TypeOrmModule.forFeature([Player, Match]),
   ],
   controllers: [PlayerController, MatchController, RankingController],
   providers: [PlayerService, MatchService, RankingService],

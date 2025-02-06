@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const player_entity_1 = require("../player/player.entity");
-const ranking_entity_1 = require("../ranking/ranking.entity");
 let PlayerService = class PlayerService {
     constructor(playerRepository) {
         this.playerRepository = playerRepository;
@@ -33,9 +32,7 @@ let PlayerService = class PlayerService {
         return player;
     }
     async create(id) {
-        const ranking = new ranking_entity_1.Ranking();
-        ranking.rank = 0;
-        const player = this.playerRepository.create({ id, rank: ranking });
+        const player = this.playerRepository.create({ id, rank: 0 });
         return this.playerRepository.save(player);
     }
 };
