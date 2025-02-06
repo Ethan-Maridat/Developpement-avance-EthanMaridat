@@ -20,7 +20,7 @@ __decorate([
     __metadata("design:type", String)
 ], Player.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)('int'),
+    (0, typeorm_1.Column)({ default: 0 }),
     __metadata("design:type", Number)
 ], Player.prototype, "rank", void 0);
 __decorate([
