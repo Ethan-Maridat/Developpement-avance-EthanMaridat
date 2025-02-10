@@ -5,14 +5,16 @@ import { Player } from '../player/player.entity';
 
 @Injectable()
 export class RankingService {
-  private readonly K = 32; // Facteur de sensibilité du ranking
-
   constructor(
     @InjectRepository(Player)
     private playerRepository: Repository<Player>,
   ) {}
 
   async getRanking(): Promise<Player[]> {
-    return this.playerRepository.find();
+    return this.playerRepository.find({
+      order: {
+        rank: 'DESC', // Trier par classement décroissant
+      },
+    });
   }
 }

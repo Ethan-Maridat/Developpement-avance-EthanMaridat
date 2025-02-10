@@ -15,11 +15,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MatchController = void 0;
 const common_1 = require("@nestjs/common");
 const match_service_1 = require("./match.service");
+const player_service_1 = require("../player/player.service");
 let MatchController = class MatchController {
-    constructor(matchService) {
+    constructor(matchService, playerService) {
         this.matchService = matchService;
+        this.playerService = playerService;
     }
-    create(matchData) {
+    async create(matchData) {
+        if (!matchData.loser || matchData.loser === '') {
+            return {
+                code: common_1.HttpStatus.BAD_REQUEST,
+                message: 'L\'identifiant du joueur perdant est manquant.'
+            };
+        }
+        if (!matchData.winner || matchData.winner === '') {
+            return {
+                code: common_1.HttpStatus.BAD_REQUEST,
+                message: 'L\'identifiant du joueur gagnant est manquant.'
+            };
+        }
+        if (matchData.loser === matchData.winner) {
+            return {
+                code: common_1.HttpStatus.BAD_REQUEST,
+                message: 'Le joueur gagnant et le joueur perdant ne peuvent pas être les mêmes.'
+            };
+        }
+        const existLoser = await this.playerService.findOne(matchData.loser);
+        const existWinner = await this.playerService.findOne(matchData.winner);
+        if (!existLoser || !existWinner) {
+            return {
+                code: common_1.HttpStatus.BAD_REQUEST,
+                message: 'Le joueur gagnant ou perdant n\'existe pas.'
+            };
+        }
         return this.matchService.createMatch(matchData.loser, matchData.winner, matchData.draw);
     }
 };
@@ -29,10 +57,11 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], MatchController.prototype, "create", null);
 exports.MatchController = MatchController = __decorate([
-    (0, common_1.Controller)('/api/matches'),
-    __metadata("design:paramtypes", [match_service_1.MatchService])
+    (0, common_1.Controller)('/api/match'),
+    __metadata("design:paramtypes", [match_service_1.MatchService,
+        player_service_1.PlayerService])
 ], MatchController);
 //# sourceMappingURL=match.controller.js.map

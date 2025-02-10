@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, HttpStatus, HttpException, Res } from '@nestjs/common';
 import { PlayerService } from './player.service';
 
 @Controller('api/player')
@@ -18,8 +18,28 @@ export class PlayerController {
   }
 
   @Post()
-  create(@Body('id') id: string) {
-    console.log('id', id);
-    return this.playerService.create(id);
+  async create(@Body('id') id: string) {
+    if (!id || id.trim() === '') {
+      return {
+        code: HttpStatus.BAD_REQUEST,
+        message: 'L\'identifiant du joueur est manquant.',
+      };
+    }
+
+    const existingPlayer = await this.playerService.findOne(id);
+    if (existingPlayer) {
+      return {
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Le joueur existe déjà.',
+      };
+    }
+
+    const newPlayer = await this.playerService.create(id);
+    return {
+      id: newPlayer.id,
+      rank: newPlayer.rank,
+    };
   }
 }
+
+

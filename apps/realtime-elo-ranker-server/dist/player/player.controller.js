@@ -27,9 +27,25 @@ let PlayerController = class PlayerController {
     findOne(id) {
         return this.playerService.findOne(id);
     }
-    create(id) {
-        console.log('id', id);
-        return this.playerService.create(id);
+    async create(id) {
+        if (!id || id.trim() === '') {
+            return {
+                code: common_1.HttpStatus.BAD_REQUEST,
+                message: 'L\'identifiant du joueur est manquant.',
+            };
+        }
+        const existingPlayer = await this.playerService.findOne(id);
+        if (existingPlayer) {
+            return {
+                code: common_1.HttpStatus.BAD_REQUEST,
+                message: 'Le joueur existe déjà.',
+            };
+        }
+        const newPlayer = await this.playerService.create(id);
+        return {
+            id: newPlayer.id,
+            rank: newPlayer.rank,
+        };
     }
 };
 exports.PlayerController = PlayerController;
@@ -51,7 +67,7 @@ __decorate([
     __param(0, (0, common_1.Body)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PlayerController.prototype, "create", null);
 exports.PlayerController = PlayerController = __decorate([
     (0, common_1.Controller)('api/player'),

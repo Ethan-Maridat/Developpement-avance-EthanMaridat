@@ -6,7 +6,7 @@ export class Player {
   @PrimaryColumn()
   id: string;
 
-  @Column({ default: 0 })
+  @Column({ default: 300 })
   rank: number;
 
   @OneToMany(() => Match, (match) => match.loser || match.winner)

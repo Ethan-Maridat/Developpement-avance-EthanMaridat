@@ -85,12 +85,16 @@ export default function Home() {
     }
     const eventSource = subscribeRankingEvents(API_BASE_URL);
     eventSource.onmessage = (msg: MessageEvent) => {
+      console.log("SSE message reçu:", msg.data);
       const event: RankingEvent = JSON.parse(msg.data);
+      console.log("Event parsed:", event);
       if (event.type === "Error") {
+        console.error("Erreur SSE:", event.message);
         console.error(event.message);
         return;
       }
       if (event.type === RankingEventType.RankingUpdate) {
+        console.log("Mise à jour du classement pour:", event.player);
         updateLadderData(event.player);
       }
     };

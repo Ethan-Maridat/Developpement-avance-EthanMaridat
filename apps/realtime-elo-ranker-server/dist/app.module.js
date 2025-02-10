@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const event_emitter_1 = require("@nestjs/event-emitter");
 const player_entity_1 = require("./player/player.entity");
 const match_entity_1 = require("./match/match.entity");
 const player_service_1 = require("./player/player.service");
@@ -17,6 +18,7 @@ const player_controller_1 = require("./player/player.controller");
 const match_controller_1 = require("./match/match.controller");
 const ranking_controller_1 = require("./ranking/ranking.controller");
 const ranking_service_1 = require("./ranking/ranking.service");
+const ranking_events_service_1 = require("./ranking/ranking.events.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -30,9 +32,10 @@ exports.AppModule = AppModule = __decorate([
                 synchronize: true,
             }),
             typeorm_1.TypeOrmModule.forFeature([player_entity_1.Player, match_entity_1.Match]),
+            event_emitter_1.EventEmitterModule.forRoot(),
         ],
         controllers: [player_controller_1.PlayerController, match_controller_1.MatchController, ranking_controller_1.RankingController],
-        providers: [player_service_1.PlayerService, match_service_1.MatchService, ranking_service_1.RankingService],
+        providers: [player_service_1.PlayerService, match_service_1.MatchService, ranking_service_1.RankingService, ranking_events_service_1.RankingEventsService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

@@ -1,11 +1,16 @@
+import { HttpStatus } from '@nestjs/common';
 import { MatchService } from './match.service';
-import { Player } from 'src/player/player.entity';
+import { PlayerService } from '../player/player.service';
 export declare class MatchController {
     private readonly matchService;
-    constructor(matchService: MatchService);
+    private readonly playerService;
+    constructor(matchService: MatchService, playerService: PlayerService);
     create(matchData: {
-        loser: Player;
-        winner: Player;
+        loser: string;
+        winner: string;
         draw: boolean;
-    }): Promise<import("./match.entity").Match>;
+    }): Promise<import("./match.entity").Match | {
+        code: HttpStatus;
+        message: string;
+    }>;
 }

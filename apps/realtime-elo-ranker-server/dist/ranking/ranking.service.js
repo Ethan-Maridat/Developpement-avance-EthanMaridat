@@ -20,10 +20,13 @@ const player_entity_1 = require("../player/player.entity");
 let RankingService = class RankingService {
     constructor(playerRepository) {
         this.playerRepository = playerRepository;
-        this.K = 32;
     }
     async getRanking() {
-        return this.playerRepository.find();
+        return this.playerRepository.find({
+            order: {
+                rank: 'DESC',
+            },
+        });
     }
 };
 exports.RankingService = RankingService;
